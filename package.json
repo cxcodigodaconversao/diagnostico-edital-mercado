@@ -1,0 +1,30 @@
+{
+  "name": "edital-mercado-diagnostico",
+  "version": "1.0.0",
+  "description": "Diagnóstico de Maturidade Digital - Análise de Potencial para o Sistema S",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Abra o index.html no navegador'",
+    "build": "echo 'Build complete - projeto estático'",
+    "deploy": "echo 'Deploy via Netlify'"
+  },
+  "keywords": [
+    "sistema-s",
+    "sebrae",
+    "diagnóstico",
+    "maturidade digital",
+    "edital",
+    "fornecedor",
+    "institucional",
+    "negócio digital"
+  ],
+  "author": "Instituto Maiara Saionara",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SEU_USUARIO/edital-mercado-diagnostico.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
