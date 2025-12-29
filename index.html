@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -49,27 +50,12 @@
             line-height: 1.5;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 100%, rgba(29, 78, 216, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 15px;
             min-height: 100vh;
             position: relative;
-            z-index: 1;
         }
 
         /* Header */
@@ -378,8 +364,8 @@
         }
 
         .pdf-content {
-            background: var(--bg-primary);
-            padding: 20px 0;
+            background: #0a1628;
+            padding: 20px;
         }
 
         .results-header {
@@ -391,24 +377,25 @@
             font-family: 'Sora', sans-serif;
             font-size: 1.5rem;
             margin-bottom: 5px;
+            color: #ffffff;
         }
 
         .results-header .subtitle {
-            color: var(--blue-primary);
+            color: #3b82f6;
             font-size: 0.9rem;
             font-weight: 600;
         }
 
         .results-header p {
-            color: var(--text-secondary);
+            color: #94a3b8;
             font-size: 0.8rem;
             margin-top: 3px;
         }
 
         /* Score Summary */
         .score-summary {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: #1a2744;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 16px;
             padding: 25px 20px;
             margin-bottom: 20px;
@@ -419,7 +406,7 @@
             align-items: center;
             gap: 20px;
             padding: 20px;
-            background: var(--bg-primary);
+            background: #0a1628;
             border-radius: 12px;
             margin-bottom: 20px;
         }
@@ -428,7 +415,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: var(--gradient-blue);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -439,12 +426,12 @@
             font-family: 'Sora', sans-serif;
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         .score-info .label {
             font-size: 0.7rem;
-            color: var(--text-muted);
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -453,6 +440,7 @@
             font-family: 'Sora', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
+            color: #ffffff;
         }
 
         .score-cards-title {
@@ -460,6 +448,7 @@
             font-size: 0.95rem;
             text-align: center;
             margin-bottom: 15px;
+            color: #ffffff;
         }
 
         .score-cards-grid {
@@ -476,22 +465,22 @@
         }
 
         .score-card {
-            background: var(--bg-primary);
+            background: #0a1628;
             border-radius: 10px;
             padding: 12px 8px;
             text-align: center;
-            border-left: 3px solid var(--blue-primary);
+            border-left: 3px solid #3b82f6;
         }
 
-        .score-card.excellent { border-left-color: var(--green-primary); }
-        .score-card.good { border-left-color: var(--green-light); }
-        .score-card.moderate { border-left-color: var(--yellow-primary); }
-        .score-card.low { border-left-color: var(--orange-primary); }
-        .score-card.critical { border-left-color: var(--red-primary); }
+        .score-card.excellent { border-left-color: #10b981; }
+        .score-card.good { border-left-color: #34d399; }
+        .score-card.moderate { border-left-color: #f59e0b; }
+        .score-card.low { border-left-color: #f97316; }
+        .score-card.critical { border-left-color: #ef4444; }
 
         .score-card .card-title {
             font-size: 0.6rem;
-            color: var(--text-secondary);
+            color: #94a3b8;
             margin-bottom: 5px;
             line-height: 1.2;
         }
@@ -502,11 +491,11 @@
             font-weight: 700;
         }
 
-        .score-card.excellent .card-value { color: var(--green-primary); }
-        .score-card.good .card-value { color: var(--green-light); }
-        .score-card.moderate .card-value { color: var(--yellow-primary); }
-        .score-card.low .card-value { color: var(--orange-primary); }
-        .score-card.critical .card-value { color: var(--red-primary); }
+        .score-card.excellent .card-value { color: #10b981; }
+        .score-card.good .card-value { color: #34d399; }
+        .score-card.moderate .card-value { color: #f59e0b; }
+        .score-card.low .card-value { color: #f97316; }
+        .score-card.critical .card-value { color: #ef4444; }
 
         .score-card .card-status {
             font-size: 0.55rem;
@@ -514,16 +503,16 @@
             text-transform: uppercase;
         }
 
-        .score-card.excellent .card-status { color: var(--green-primary); }
-        .score-card.good .card-status { color: var(--green-light); }
-        .score-card.moderate .card-status { color: var(--yellow-primary); }
-        .score-card.low .card-status { color: var(--orange-primary); }
-        .score-card.critical .card-status { color: var(--red-primary); }
+        .score-card.excellent .card-status { color: #10b981; }
+        .score-card.good .card-status { color: #34d399; }
+        .score-card.moderate .card-status { color: #f59e0b; }
+        .score-card.low .card-status { color: #f97316; }
+        .score-card.critical .card-status { color: #ef4444; }
 
         /* Chart Container */
         .chart-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: #1a2744;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
@@ -534,11 +523,12 @@
             font-size: 1rem;
             text-align: center;
             margin-bottom: 10px;
+            color: #ffffff;
         }
 
         .chart-wrapper {
             width: 100%;
-            max-width: 380px;
+            max-width: 350px;
             margin: 0 auto;
         }
 
@@ -551,6 +541,7 @@
             font-family: 'Sora', sans-serif;
             font-size: 1rem;
             margin-bottom: 15px;
+            color: #ffffff;
         }
 
         .analysis-card {
@@ -561,17 +552,17 @@
 
         .analysis-card.critical {
             background: rgba(236, 72, 153, 0.1);
-            border-left: 4px solid var(--pink-primary);
+            border-left: 4px solid #ec4899;
         }
 
         .analysis-card.warning {
             background: rgba(245, 158, 11, 0.1);
-            border-left: 4px solid var(--yellow-primary);
+            border-left: 4px solid #f59e0b;
         }
 
         .analysis-card.success {
             background: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid var(--green-primary);
+            border-left: 4px solid #10b981;
         }
 
         .analysis-card h4 {
@@ -581,9 +572,9 @@
             margin-bottom: 10px;
         }
 
-        .analysis-card.critical h4 { color: var(--pink-primary); }
-        .analysis-card.warning h4 { color: var(--yellow-primary); }
-        .analysis-card.success h4 { color: var(--green-primary); }
+        .analysis-card.critical h4 { color: #ec4899; }
+        .analysis-card.warning h4 { color: #f59e0b; }
+        .analysis-card.success h4 { color: #10b981; }
 
         .analysis-item {
             margin-bottom: 8px;
@@ -596,17 +587,17 @@
         }
 
         .analysis-item strong {
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         .analysis-item span {
-            color: var(--text-secondary);
+            color: #94a3b8;
         }
 
         /* Next Steps */
         .next-steps-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: #1a2744;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
@@ -616,10 +607,11 @@
             font-family: 'Sora', sans-serif;
             font-size: 0.95rem;
             margin-bottom: 15px;
+            color: #ffffff;
         }
 
         .step-card {
-            background: var(--bg-primary);
+            background: #0a1628;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
@@ -632,14 +624,12 @@
         .step-card h5 {
             font-size: 0.85rem;
             margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: #ffffff;
         }
 
         .step-card p {
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: #94a3b8;
             line-height: 1.5;
         }
 
@@ -667,22 +657,27 @@
         }
 
         .btn-pdf {
-            background: var(--gradient-blue);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff;
         }
 
         .btn-pdf:hover {
             transform: translateY(-2px);
         }
 
+        .btn-pdf:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
         .btn-new {
-            background: var(--bg-card-light);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
+            background: #243350;
+            color: #94a3b8;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .btn-new:hover {
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         /* Responsive */
@@ -899,7 +894,7 @@
             },
             {
                 name: 'atracao_clientes',
-                label: 'Atração de Clientes Institucionais',
+                label: 'Atração de Clientes',
                 shortLabel: 'Atração',
                 icon: '🎯',
                 questions: [
@@ -911,7 +906,7 @@
             },
             {
                 name: 'estrategia_venda',
-                label: 'Estratégia de Venda para o Sistema S',
+                label: 'Estratégia de Venda',
                 shortLabel: 'Estratégia',
                 icon: '📋',
                 questions: [
@@ -1188,7 +1183,7 @@
                 </div>
 
                 <div class="action-buttons" id="actionButtons">
-                    <button class="btn-action btn-pdf" onclick="generatePDF()">📄 Gerar PDF</button>
+                    <button class="btn-action btn-pdf" id="btnPdf" onclick="generatePDF()">📄 Gerar PDF</button>
                     <button class="btn-action btn-new" onclick="newAssessment()">🔄 Nova Avaliação</button>
                 </div>
             `;
@@ -1271,34 +1266,63 @@
             });
         }
 
-        function generatePDF() {
+        async function generatePDF() {
+            const btn = document.getElementById('btnPdf');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Gerando PDF...';
+
+            const { jsPDF } = window.jspdf;
             const element = document.getElementById('pdfContent');
             const buttons = document.getElementById('actionButtons');
             
             buttons.style.display = 'none';
 
-            const opt = {
-                margin: [8, 8, 8, 8],
-                filename: `Diagnostico_EditalMercado_${userData.name.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
+            try {
+                // Captura o conteúdo como imagem
+                const canvas = await html2canvas(element, {
+                    scale: 2,
                     useCORS: true,
                     backgroundColor: '#0a1628',
                     logging: false,
-                    windowWidth: 800
-                },
-                jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait'
-                },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-            };
+                    width: element.scrollWidth,
+                    height: element.scrollHeight,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
 
-            html2pdf().set(opt).from(element).save().then(() => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                
+                // Calcula dimensões para o PDF
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Primeira página
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Páginas adicionais se necessário
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save(`Diagnostico_EditalMercado_${userData.name.replace(/\s+/g, '_')}.pdf`);
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Erro ao gerar PDF. Tente novamente.');
+            } finally {
                 buttons.style.display = 'flex';
-            });
+                btn.disabled = false;
+                btn.innerHTML = '📄 Gerar PDF';
+            }
         }
 
         function newAssessment() {
