@@ -377,6 +377,11 @@
             display: none;
         }
 
+        .pdf-content {
+            background: var(--bg-primary);
+            padding: 20px 0;
+        }
+
         .results-header {
             text-align: center;
             margin-bottom: 25px;
@@ -485,7 +490,7 @@
         .score-card.critical { border-left-color: var(--red-primary); }
 
         .score-card .card-title {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-secondary);
             margin-bottom: 5px;
             line-height: 1.2;
@@ -504,7 +509,7 @@
         .score-card.critical .card-value { color: var(--red-primary); }
 
         .score-card .card-status {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 600;
             text-transform: uppercase;
         }
@@ -520,18 +525,21 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 25px 20px;
+            padding: 20px;
             margin-bottom: 20px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .chart-title {
             font-family: 'Sora', sans-serif;
             font-size: 1rem;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
         }
 
         /* Analysis Section */
@@ -553,17 +561,17 @@
 
         .analysis-card.critical {
             background: rgba(236, 72, 153, 0.1);
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-left: 4px solid var(--pink-primary);
         }
 
         .analysis-card.warning {
             background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-left: 4px solid var(--yellow-primary);
         }
 
         .analysis-card.success {
             background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-left: 4px solid var(--green-primary);
         }
 
         .analysis-card h4 {
@@ -753,7 +761,7 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
+        <header class="header" id="mainHeader">
             <h1>Edital de Mercado</h1>
             <p class="subtitle">Diagnóstico de Maturidade Digital</p>
             <p>Análise de Potencial para Transformar sua Estrutura Atual em Receita com o Sistema S</p>
@@ -844,7 +852,7 @@
             {
                 name: 'potencial_impacto',
                 label: 'Potencial de Impacto',
-                shortLabel: 'Potencial de Impacto',
+                shortLabel: 'Impacto',
                 icon: '📊',
                 questions: [
                     { text: 'Quanto seus programas atuais poderiam gerar impacto se oferecidos dentro de um programa do Sebrae?', scaleMin: 'Nenhum impacto', scaleMax: 'Impacto máximo' },
@@ -856,7 +864,7 @@
             {
                 name: 'potencial_negocio',
                 label: 'Potencial de Negócio',
-                shortLabel: 'Potencial de Negócio',
+                shortLabel: 'Negócio',
                 icon: '💼',
                 questions: [
                     { text: 'Quanto seus conteúdos se aplicam a públicos como MEIs, pequenos empresários, lideranças e jovens empreendedores?', scaleMin: 'Não se aplicam', scaleMax: 'Aplicam-se perfeitamente' },
@@ -868,7 +876,7 @@
             {
                 name: 'estrutura_oferta',
                 label: 'Estrutura de Oferta',
-                shortLabel: 'Estrutura de Oferta',
+                shortLabel: 'Oferta',
                 icon: '📦',
                 questions: [
                     { text: 'Quanto você sabe estruturar sua entrega para apresentar como solução pronta para o Sistema S?', scaleMin: 'Não sei estruturar', scaleMax: 'Totalmente estruturado' },
@@ -880,7 +888,7 @@
             {
                 name: 'potencial_escala',
                 label: 'Potencial de Escala',
-                shortLabel: 'Potencial de Escala',
+                shortLabel: 'Escala',
                 icon: '🚀',
                 questions: [
                     { text: 'Quanto você acredita que esse canal permitiria escalar com mais previsibilidade e menos exposição?', scaleMin: 'Nenhuma escalabilidade', scaleMax: 'Escalabilidade máxima' },
@@ -892,7 +900,7 @@
             {
                 name: 'atracao_clientes',
                 label: 'Atração de Clientes Institucionais',
-                shortLabel: 'Atração de Clientes Institucionais',
+                shortLabel: 'Atração',
                 icon: '🎯',
                 questions: [
                     { text: 'Quanto você entende sobre como atrair a atenção de quem compra soluções no Sebrae?', scaleMin: 'Nenhum entendimento', scaleMax: 'Entendimento total' },
@@ -904,7 +912,7 @@
             {
                 name: 'estrategia_venda',
                 label: 'Estratégia de Venda para o Sistema S',
-                shortLabel: 'Estratégia de Venda para o Sistema S',
+                shortLabel: 'Estratégia',
                 icon: '📋',
                 questions: [
                     { text: 'Quanto você já conhece dos processos de compra via edital, chamamento ou contratação direta do Sebrae?', scaleMin: 'Desconheço totalmente', scaleMax: 'Conheço profundamente' },
@@ -916,7 +924,7 @@
             {
                 name: 'demanda_urgencia',
                 label: 'Demanda e Urgência',
-                shortLabel: 'Demanda e Urgência',
+                shortLabel: 'Urgência',
                 icon: '⚡',
                 questions: [
                     { text: 'Quanto você acredita que já tem um produto pronto para o Sistema S, mas ainda não explorou esse mercado?', scaleMin: 'Produto não pronto', scaleMax: 'Produto totalmente pronto' },
@@ -1045,6 +1053,7 @@
                 experience: document.getElementById('userExperience').value.trim()
             };
             document.getElementById('initialForm').style.display = 'none';
+            document.getElementById('mainHeader').style.display = 'none';
             document.getElementById('progressSection').style.display = 'block';
             document.getElementById('quizSection').style.display = 'block';
             displayQuestion();
@@ -1102,79 +1111,83 @@
             const strongAreas = areaScores.filter(a => a.percentage > 60);
 
             document.getElementById('results').innerHTML = `
-                <div class="results-header">
-                    <h1>Edital de Mercado</h1>
-                    <p class="subtitle">Diagnóstico de Maturidade Digital</p>
-                    <p>Análise de Potencial para Transformar sua Estrutura Atual em Receita com o Sistema S</p>
-                </div>
-
-                <div class="score-summary">
-                    <div class="score-main">
-                        <div class="score-circle">
-                            <span class="percentage">${Math.round(results.percentage)}%</span>
-                        </div>
-                        <div class="score-info">
-                            <div class="label">SCORE GERAL</div>
-                            <div class="name">${userData.name}</div>
-                        </div>
+                <div id="pdfContent" class="pdf-content">
+                    <div class="results-header">
+                        <h1>Edital de Mercado</h1>
+                        <p class="subtitle">Diagnóstico de Maturidade Digital</p>
+                        <p>Análise de Potencial para Transformar sua Estrutura Atual em Receita com o Sistema S</p>
                     </div>
-                    <h3 class="score-cards-title">Resultados do Diagnóstico</h3>
-                    <div class="score-cards-grid">
-                        ${areaScores.slice(0, 4).map(a => `
-                            <div class="score-card ${a.class}">
-                                <div class="card-title">${a.shortLabel}</div>
-                                <div class="card-value">${Math.round(a.percentage)}%</div>
-                                <div class="card-status">${a.status}</div>
+
+                    <div class="score-summary">
+                        <div class="score-main">
+                            <div class="score-circle">
+                                <span class="percentage">${Math.round(results.percentage)}%</span>
                             </div>
-                        `).join('')}
-                    </div>
-                    <div class="score-cards-row">
-                        ${areaScores.slice(4).map(a => `
-                            <div class="score-card ${a.class}">
-                                <div class="card-title">${a.shortLabel}</div>
-                                <div class="card-value">${Math.round(a.percentage)}%</div>
-                                <div class="card-status">${a.status}</div>
+                            <div class="score-info">
+                                <div class="label">SCORE GERAL</div>
+                                <div class="name">${userData.name}</div>
                             </div>
-                        `).join('')}
+                        </div>
+                        <h3 class="score-cards-title">Resultados do Diagnóstico</h3>
+                        <div class="score-cards-grid">
+                            ${areaScores.slice(0, 4).map(a => `
+                                <div class="score-card ${a.class}">
+                                    <div class="card-title">${a.label}</div>
+                                    <div class="card-value">${Math.round(a.percentage)}%</div>
+                                    <div class="card-status">${a.status}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="score-cards-row">
+                            ${areaScores.slice(4).map(a => `
+                                <div class="score-card ${a.class}">
+                                    <div class="card-title">${a.label}</div>
+                                    <div class="card-value">${Math.round(a.percentage)}%</div>
+                                    <div class="card-status">${a.status}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3 class="chart-title">Visão 360° do Negócio</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h3 class="analysis-title">Análise Detalhada e Recomendações</h3>
+                        ${criticalAreas.length > 0 ? `
+                            <div class="analysis-card critical">
+                                <h4>Prioridades Críticas</h4>
+                                ${criticalAreas.map(a => `<div class="analysis-item"><strong>${a.label}:</strong> <span>${getRecommendation(a.name, 'critical')}</span></div>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${warningAreas.length > 0 ? `
+                            <div class="analysis-card warning">
+                                <h4>Oportunidades de Melhoria</h4>
+                                ${warningAreas.map(a => `<div class="analysis-item"><strong>${a.label}:</strong> <span>${getRecommendation(a.name, 'warning')}</span></div>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${strongAreas.length > 0 ? `
+                            <div class="analysis-card success">
+                                <h4>Pontos Fortes para Alavancar</h4>
+                                ${strongAreas.map(a => `<div class="analysis-item"><strong>${a.label}:</strong> <span>${getRecommendation(a.name, 'success')}</span></div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="next-steps-section">
+                        <h3 class="next-steps-title">🚀 Próximos Passos para Acelerar seu Negócio no Sistema S</h3>
+                        <div class="step-card"><h5>💰 O Custo de Não Agir</h5><p>Cada dia que passa sem atuar no Sistema S é uma oportunidade perdida. Enquanto você trabalha com clientes individuais, concorrentes já estão fechando contratos de R$ 50.000–500.000 com instituições.</p></div>
+                        <div class="step-card"><h5>🎯 Janela de Oportunidade</h5><p>O Sistema S está em digitalização acelerada. Quem se posicionar agora terá vantagem competitiva.</p></div>
+                        <div class="step-card"><h5>📈 Potencial de Transformação</h5><p>Com base no seu diagnóstico, você pode criar receita previsível com contratos anuais relevantes.</p></div>
+                        <div class="step-card"><h5>🏆 Casos de Sucesso</h5><p>Especialistas relatam contratos 10–20x maiores que no digital, com impacto em escala.</p></div>
                     </div>
                 </div>
 
-                <div class="chart-container">
-                    <h3 class="chart-title">Visão 360° do Negócio</h3>
-                    <canvas id="radarChart"></canvas>
-                </div>
-
-                <div class="analysis-section">
-                    <h3 class="analysis-title">Análise Detalhada e Recomendações</h3>
-                    ${criticalAreas.length > 0 ? `
-                        <div class="analysis-card critical">
-                            <h4>Prioridades Críticas</h4>
-                            ${criticalAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'critical')}</span></div>`).join('')}
-                        </div>
-                    ` : ''}
-                    ${warningAreas.length > 0 ? `
-                        <div class="analysis-card warning">
-                            <h4>Oportunidades de Melhoria</h4>
-                            ${warningAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'warning')}</span></div>`).join('')}
-                        </div>
-                    ` : ''}
-                    ${strongAreas.length > 0 ? `
-                        <div class="analysis-card success">
-                            <h4>Pontos Fortes para Alavancar</h4>
-                            ${strongAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'success')}</span></div>`).join('')}
-                        </div>
-                    ` : ''}
-                </div>
-
-                <div class="next-steps-section">
-                    <h3 class="next-steps-title">🚀 Próximos Passos para Acelerar seu Negócio no Sistema S</h3>
-                    <div class="step-card"><h5>💰 O Custo de Não Agir</h5><p>Cada dia que passa sem atuar no Sistema S é uma oportunidade perdida. Enquanto você trabalha com clientes individuais, concorrentes já estão fechando contratos de R$ 50.000–500.000 com instituições.</p></div>
-                    <div class="step-card"><h5>🎯 Janela de Oportunidade</h5><p>O Sistema S está em digitalização acelerada. Quem se posicionar agora terá vantagem competitiva.</p></div>
-                    <div class="step-card"><h5>📈 Potencial de Transformação</h5><p>Com base no seu diagnóstico, você pode criar receita previsível com contratos anuais relevantes.</p></div>
-                    <div class="step-card"><h5>🏆 Casos de Sucesso</h5><p>Especialistas relatam contratos 10–20x maiores que no digital, com impacto em escala.</p></div>
-                </div>
-
-                <div class="action-buttons">
+                <div class="action-buttons" id="actionButtons">
                     <button class="btn-action btn-pdf" onclick="generatePDF()">📄 Gerar PDF</button>
                     <button class="btn-action btn-new" onclick="newAssessment()">🔄 Nova Avaliação</button>
                 </div>
@@ -1192,15 +1205,10 @@
             const ctx = document.getElementById('radarChart').getContext('2d');
             if (radarChart) radarChart.destroy();
 
-            const labels = areaScores.map(a => {
-                const words = a.shortLabel.split(' ');
-                return words.length > 2 ? words.slice(0, 2).join(' ') : a.shortLabel;
-            });
-
             radarChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: labels,
+                    labels: areaScores.map(a => a.shortLabel),
                     datasets: [
                         {
                             label: 'Situação Atual',
@@ -1211,7 +1219,7 @@
                             pointBackgroundColor: '#3b82f6',
                             pointBorderColor: '#0a1628',
                             pointBorderWidth: 2,
-                            pointRadius: 4
+                            pointRadius: 5
                         },
                         {
                             label: 'Situação Ideal',
@@ -1221,7 +1229,7 @@
                             borderWidth: 2,
                             borderDash: [5, 5],
                             pointBackgroundColor: '#10b981',
-                            pointRadius: 3
+                            pointRadius: 4
                         }
                     ]
                 },
@@ -1255,7 +1263,7 @@
                             angleLines: { color: 'rgba(59, 130, 246, 0.15)' },
                             pointLabels: {
                                 color: '#ffffff',
-                                font: { size: 10, family: 'Outfit' }
+                                font: { size: 11, family: 'Outfit', weight: '600' }
                             }
                         }
                     }
@@ -1264,17 +1272,31 @@
         }
 
         function generatePDF() {
-            const element = document.getElementById('results');
-            const buttons = document.querySelector('.action-buttons');
+            const element = document.getElementById('pdfContent');
+            const buttons = document.getElementById('actionButtons');
+            
             buttons.style.display = 'none';
 
-            html2pdf().set({
-                margin: 10,
-                filename: `Diagnostico_${userData.name.replace(/\s+/g, '_')}.pdf`,
+            const opt = {
+                margin: [8, 8, 8, 8],
+                filename: `Diagnostico_EditalMercado_${userData.name.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0a1628' },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).from(element).save().then(() => {
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: '#0a1628',
+                    logging: false,
+                    windowWidth: 800
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait'
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
                 buttons.style.display = 'flex';
             });
         }
@@ -1291,6 +1313,7 @@
                 document.getElementById('progressSection').style.display = 'none';
                 document.getElementById('quizSection').style.display = 'none';
                 document.getElementById('initialForm').style.display = 'block';
+                document.getElementById('mainHeader').style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
