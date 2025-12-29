@@ -1,0 +1,8 @@
+{
+  "name": "edital-mercado-diagnostico",
+  "version": "2.0.0",
+  "description": "Diagnóstico de Maturidade Digital - Sistema S",
+  "main": "index.html",
+  "author": "Instituto Maiara Saionara",
+  "license": "MIT"
+}

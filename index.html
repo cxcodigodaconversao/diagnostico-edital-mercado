@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edital de Mercado - Diagnóstico de Maturidade Digital para o Sistema S">
+    <title>Edital de Mercado - Diagnóstico de Maturidade Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a1628;
+            --bg-secondary: #0f1d32;
+            --bg-card: #1a2744;
+            --bg-card-light: #243350;
+            --blue-primary: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-dark: #1d4ed8;
+            --blue-glow: rgba(59, 130, 246, 0.35);
+            --green-primary: #10b981;
+            --green-light: #34d399;
+            --yellow-primary: #f59e0b;
+            --orange-primary: #f97316;
+            --red-primary: #ef4444;
+            --pink-primary: #ec4899;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow-blue: 0 0 40px rgba(59, 130, 246, 0.1);
+            --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(29, 78, 216, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 15px 25px;
+        }
+
+        .header h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 0.95rem;
+            color: var(--blue-primary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Initial Form */
+        .initial-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 25px;
+            margin-top: 20px;
+        }
+
+        .initial-form h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .btn-start {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 25px auto 0;
+            padding: 14px 28px;
+            background: var(--gradient-blue);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-text strong {
+            color: var(--blue-primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: var(--bg-primary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-blue);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            display: none;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-blue);
+        }
+
+        .question-card.fade-out {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .topic-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--blue-primary);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Rating Scale */
+        .rating-scale {
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            gap: 6px;
+            margin: 20px 0;
+        }
+
+        .rating-scale input[type="radio"] {
+            display: none;
+        }
+
+        .rating-scale label {
+            aspect-ratio: 1;
+            min-height: 38px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+        }
+
+        .rating-scale label:hover {
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
+        }
+
+        .rating-scale input[type="radio"]:checked + label {
+            background: var(--gradient-blue);
+            border-color: var(--blue-primary);
+            color: var(--text-primary);
+            transform: scale(1.05);
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
+        }
+
+        .btn-primary {
+            background: var(--gradient-blue);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .results-header h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .results-header .subtitle {
+            color: var(--blue-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .results-header p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        /* Score Summary */
+        .score-summary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+        }
+
+        .score-main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .score-circle .percentage {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .score-info .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .score-info .name {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .score-cards-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.95rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .score-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .score-cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .score-card {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            border-left: 3px solid var(--blue-primary);
+        }
+
+        .score-card.excellent { border-left-color: var(--green-primary); }
+        .score-card.good { border-left-color: var(--green-light); }
+        .score-card.moderate { border-left-color: var(--yellow-primary); }
+        .score-card.low { border-left-color: var(--orange-primary); }
+        .score-card.critical { border-left-color: var(--red-primary); }
+
+        .score-card .card-title {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .score-card .card-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .score-card.excellent .card-value { color: var(--green-primary); }
+        .score-card.good .card-value { color: var(--green-light); }
+        .score-card.moderate .card-value { color: var(--yellow-primary); }
+        .score-card.low .card-value { color: var(--orange-primary); }
+        .score-card.critical .card-value { color: var(--red-primary); }
+
+        .score-card .card-status {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .score-card.excellent .card-status { color: var(--green-primary); }
+        .score-card.good .card-status { color: var(--green-light); }
+        .score-card.moderate .card-status { color: var(--yellow-primary); }
+        .score-card.low .card-status { color: var(--orange-primary); }
+        .score-card.critical .card-status { color: var(--red-primary); }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chart-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            margin-bottom: 20px;
+        }
+
+        .analysis-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .analysis-card {
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 12px;
+        }
+
+        .analysis-card.critical {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .analysis-card.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .analysis-card.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .analysis-card h4 {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .analysis-card.critical h4 { color: var(--pink-primary); }
+        .analysis-card.warning h4 { color: var(--yellow-primary); }
+        .analysis-card.success h4 { color: var(--green-primary); }
+
+        .analysis-item {
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .analysis-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .analysis-item strong {
+            color: var(--text-primary);
+        }
+
+        .analysis-item span {
+            color: var(--text-secondary);
+        }
+
+        /* Next Steps */
+        .next-steps-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .next-steps-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .step-card {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .step-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-card h5 {
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            border: none;
+        }
+
+        .btn-pdf {
+            background: var(--gradient-blue);
+            color: var(--text-primary);
+        }
+
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-new {
+            background: var(--bg-card-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-new:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 10px;
+            }
+
+            .initial-form,
+            .question-card {
+                padding: 20px 15px;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .rating-scale {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 5px;
+            }
+
+            .rating-scale label {
+                min-height: 35px;
+                font-size: 0.8rem;
+            }
+
+            .score-main {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .score-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .score-cards-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .score-cards-row .score-card:last-child {
+                grid-column: span 2;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .navigation-buttons {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Edital de Mercado</h1>
+            <p class="subtitle">Diagnóstico de Maturidade Digital</p>
+            <p>Análise de Potencial para Transformar sua Estrutura Atual em Receita com o Sistema S</p>
+        </header>
+
+        <section id="initialForm" class="initial-form">
+            <h2>Informações Iniciais</h2>
+            
+            <div class="form-group">
+                <label for="userName">Nome</label>
+                <input type="text" id="userName" placeholder="Digite seu nome completo">
+            </div>
+
+            <div class="form-group">
+                <label for="userIdea">Um breve resumo da sua ideia de começar a ser um fornecedor oficial do Sebrae</label>
+                <textarea id="userIdea" placeholder="Descreva sua ideia ou experiência..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="userExperience">Um breve resumo sobre experiências profissionais</label>
+                <textarea id="userExperience" placeholder="Conte sobre sua trajetória profissional..."></textarea>
+            </div>
+
+            <button class="btn-start" id="startBtn" onclick="startDiagnostic()">Iniciar Diagnóstico</button>
+        </section>
+
+        <section id="progressSection" class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text">Pergunta <strong id="currentQuestion">1</strong> de <strong>28</strong></span>
+                <span class="progress-text"><strong id="progressPercent">4%</strong> concluído</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </section>
+
+        <section id="quizSection" class="quiz-section">
+            <div class="question-card" id="questionCard">
+                <div class="topic-indicator" id="topicIndicator">📊 Potencial de Impacto</div>
+                <div class="question-number" id="questionNumber">Pergunta 1/28</div>
+                <div class="question-text" id="questionText">
+                    Quanto seus programas atuais poderiam gerar impacto se oferecidos dentro de um programa do Sebrae?
+                </div>
+
+                <div class="rating-scale">
+                    <input type="radio" name="currentAnswer" value="0" id="answer0">
+                    <label for="answer0">0</label>
+                    <input type="radio" name="currentAnswer" value="1" id="answer1">
+                    <label for="answer1">1</label>
+                    <input type="radio" name="currentAnswer" value="2" id="answer2">
+                    <label for="answer2">2</label>
+                    <input type="radio" name="currentAnswer" value="3" id="answer3">
+                    <label for="answer3">3</label>
+                    <input type="radio" name="currentAnswer" value="4" id="answer4">
+                    <label for="answer4">4</label>
+                    <input type="radio" name="currentAnswer" value="5" id="answer5">
+                    <label for="answer5">5</label>
+                    <input type="radio" name="currentAnswer" value="6" id="answer6">
+                    <label for="answer6">6</label>
+                    <input type="radio" name="currentAnswer" value="7" id="answer7">
+                    <label for="answer7">7</label>
+                    <input type="radio" name="currentAnswer" value="8" id="answer8">
+                    <label for="answer8">8</label>
+                    <input type="radio" name="currentAnswer" value="9" id="answer9">
+                    <label for="answer9">9</label>
+                    <input type="radio" name="currentAnswer" value="10" id="answer10">
+                    <label for="answer10">10</label>
+                </div>
+                <div class="scale-labels">
+                    <span>Nenhum impacto</span>
+                    <span>Impacto máximo</span>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="visibility: hidden;">← Voltar</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Próxima →</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="results">
+            <!-- Populated by JS -->
+        </section>
+    </div>
+
+    <script>
+        const areas = [
+            {
+                name: 'potencial_impacto',
+                label: 'Potencial de Impacto',
+                shortLabel: 'Potencial de Impacto',
+                icon: '📊',
+                questions: [
+                    { text: 'Quanto seus programas atuais poderiam gerar impacto se oferecidos dentro de um programa do Sebrae?', scaleMin: 'Nenhum impacto', scaleMax: 'Impacto máximo' },
+                    { text: 'Quanto valor você vê na transformação que entrega ao ser posicionada como uma solução institucional?', scaleMin: 'Nenhum valor', scaleMax: 'Valor máximo' },
+                    { text: 'Quanto sua entrega poderia gerar resultados em escala para públicos que o Sebrae já atende?', scaleMin: 'Nenhum resultado', scaleMax: 'Resultados excepcionais' },
+                    { text: 'Quanto do que você já criou pode ser aproveitado sem mudanças radicais para vender institucionalmente?', scaleMin: 'Nada aproveitável', scaleMax: 'Totalmente aproveitável' }
+                ]
+            },
+            {
+                name: 'potencial_negocio',
+                label: 'Potencial de Negócio',
+                shortLabel: 'Potencial de Negócio',
+                icon: '💼',
+                questions: [
+                    { text: 'Quanto seus conteúdos se aplicam a públicos como MEIs, pequenos empresários, lideranças e jovens empreendedores?', scaleMin: 'Não se aplicam', scaleMax: 'Aplicam-se perfeitamente' },
+                    { text: 'Quanto você acredita que poderia ampliar seu impacto atendendo via Sebrae, sem depender de lançamentos ou tráfego?', scaleMin: 'Nenhuma ampliação', scaleMax: 'Ampliação máxima' },
+                    { text: 'Quanto valor teria sua entrega se usada como uma solução contratada por um órgão como o Sebrae?', scaleMin: 'Nenhum valor', scaleMax: 'Valor excepcional' },
+                    { text: 'Quanto você acredita que poderia ser remunerado por uma entrega validada e com resultado garantido?', scaleMin: 'Remuneração mínima', scaleMax: 'Remuneração premium' }
+                ]
+            },
+            {
+                name: 'estrutura_oferta',
+                label: 'Estrutura de Oferta',
+                shortLabel: 'Estrutura de Oferta',
+                icon: '📦',
+                questions: [
+                    { text: 'Quanto você sabe estruturar sua entrega para apresentar como solução pronta para o Sistema S?', scaleMin: 'Não sei estruturar', scaleMax: 'Totalmente estruturado' },
+                    { text: 'Quanto da sua entrega já é padronizável, sem depender totalmente de você para cada turma ou cliente?', scaleMin: 'Nada padronizável', scaleMax: 'Totalmente padronizável' },
+                    { text: 'Quanto você conseguiria personalizar a experiência para instituições sem prejudicar sua operação atual?', scaleMin: 'Não conseguiria', scaleMax: 'Facilmente personalizável' },
+                    { text: 'Quanto sua oferta já tem elementos que aumentam o valor percebido em uma análise institucional?', scaleMin: 'Nenhum elemento', scaleMax: 'Muitos elementos' }
+                ]
+            },
+            {
+                name: 'potencial_escala',
+                label: 'Potencial de Escala',
+                shortLabel: 'Potencial de Escala',
+                icon: '🚀',
+                questions: [
+                    { text: 'Quanto você acredita que esse canal permitiria escalar com mais previsibilidade e menos exposição?', scaleMin: 'Nenhuma escalabilidade', scaleMax: 'Escalabilidade máxima' },
+                    { text: 'Quanto poderia crescer atendendo mais unidades do Sebrae ou programas estaduais?', scaleMin: 'Nenhum crescimento', scaleMax: 'Crescimento exponencial' },
+                    { text: 'Quanto sente que existe baixa concorrência nesse canal, comparado ao digital?', scaleMin: 'Alta concorrência', scaleMax: 'Baixíssima concorrência' },
+                    { text: 'Quanto da sua base atual poderia ser usada como prova social para validar sua solução institucionalmente?', scaleMin: 'Nenhuma prova', scaleMax: 'Provas abundantes' }
+                ]
+            },
+            {
+                name: 'atracao_clientes',
+                label: 'Atração de Clientes Institucionais',
+                shortLabel: 'Atração de Clientes Institucionais',
+                icon: '🎯',
+                questions: [
+                    { text: 'Quanto você entende sobre como atrair a atenção de quem compra soluções no Sebrae?', scaleMin: 'Nenhum entendimento', scaleMax: 'Entendimento total' },
+                    { text: 'Quanto você já comunica, nos seus materiais, que pode entregar soluções aplicáveis em ambientes corporativos ou educacionais?', scaleMin: 'Não comunico', scaleMax: 'Comunico claramente' },
+                    { text: 'Quanto você sabe adaptar sua linguagem para gerar credibilidade com gestores e coordenadores institucionais?', scaleMin: 'Não sei adaptar', scaleMax: 'Adapto perfeitamente' },
+                    { text: 'Quanto você se sente pronto para apresentar sua solução sem depender de gatilhos de escassez e marketing digital?', scaleMin: 'Não estou pronto', scaleMax: 'Totalmente pronto' }
+                ]
+            },
+            {
+                name: 'estrategia_venda',
+                label: 'Estratégia de Venda para o Sistema S',
+                shortLabel: 'Estratégia de Venda para o Sistema S',
+                icon: '📋',
+                questions: [
+                    { text: 'Quanto você já conhece dos processos de compra via edital, chamamento ou contratação direta do Sebrae?', scaleMin: 'Desconheço totalmente', scaleMax: 'Conheço profundamente' },
+                    { text: 'Quanto você se sente confortável em montar propostas e apresentar tecnicamente sua solução?', scaleMin: 'Muito desconfortável', scaleMax: 'Muito confortável' },
+                    { text: 'Quanto sua estrutura atual está pronta para lidar com prazos, entregas e relatórios formais?', scaleMin: 'Não está pronta', scaleMax: 'Totalmente pronta' },
+                    { text: 'Quanto você enxerga que esse modelo pode gerar vendas sem a necessidade de um time comercial ativo?', scaleMin: 'Preciso de time', scaleMax: 'Independente de time' }
+                ]
+            },
+            {
+                name: 'demanda_urgencia',
+                label: 'Demanda e Urgência',
+                shortLabel: 'Demanda e Urgência',
+                icon: '⚡',
+                questions: [
+                    { text: 'Quanto você acredita que já tem um produto pronto para o Sistema S, mas ainda não explorou esse mercado?', scaleMin: 'Produto não pronto', scaleMax: 'Produto totalmente pronto' },
+                    { text: 'Quanto sente que o Sebrae e instituições similares estão buscando soluções com o seu perfil?', scaleMin: 'Não estão buscando', scaleMax: 'Alta demanda' },
+                    { text: 'Quanto você acredita que pode conquistar mais mercado se agir antes dos seus concorrentes?', scaleMin: 'Sem vantagem', scaleMax: 'Vantagem máxima' },
+                    { text: 'Quanto sente que esse canal pode dar estabilidade de receita sem depender da próxima campanha de lançamento?', scaleMin: 'Nenhuma estabilidade', scaleMax: 'Estabilidade total' }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let userData = { name: '', idea: '', experience: '' };
+        let radarChart = null;
+
+        const allQuestions = [];
+        areas.forEach(area => {
+            area.questions.forEach((question, index) => {
+                allQuestions.push({
+                    areaName: area.name,
+                    areaLabel: area.label,
+                    areaIcon: area.icon,
+                    text: question.text,
+                    scaleMin: question.scaleMin,
+                    scaleMax: question.scaleMax,
+                    id: `${area.name}_${index}`
+                });
+            });
+        });
+
+        const totalQuestions = allQuestions.length;
+
+        function getScoreClass(percentage) {
+            if (percentage >= 81) return 'excellent';
+            if (percentage >= 61) return 'good';
+            if (percentage >= 41) return 'moderate';
+            if (percentage >= 21) return 'low';
+            return 'critical';
+        }
+
+        function getScoreStatus(percentage) {
+            if (percentage >= 81) return 'Ponto Forte';
+            if (percentage >= 61) return 'Bom';
+            if (percentage >= 41) return 'Oportunidade';
+            if (percentage >= 21) return 'Atenção';
+            return 'Prioridade';
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
+        }
+
+        function displayQuestion() {
+            const question = allQuestions[currentQuestionIndex];
+            document.getElementById('topicIndicator').innerHTML = `${question.areaIcon} ${question.areaLabel}`;
+            document.getElementById('questionNumber').textContent = `Pergunta ${currentQuestionIndex + 1}/${totalQuestions}`;
+            document.getElementById('questionText').textContent = question.text;
+
+            document.querySelector('.scale-labels').innerHTML = `<span>${question.scaleMin}</span><span>${question.scaleMax}</span>`;
+
+            document.querySelectorAll('input[name="currentAnswer"]').forEach(radio => radio.checked = false);
+
+            if (answers[question.id] !== undefined) {
+                document.getElementById(`answer${answers[question.id]}`).checked = true;
+            }
+
+            updateNavigationButtons();
+            updateProgress();
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prevBtn').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+            const selectedAnswer = document.querySelector('input[name="currentAnswer"]:checked');
+            document.getElementById('nextBtn').disabled = !selectedAnswer;
+            document.getElementById('nextBtn').textContent = currentQuestionIndex === totalQuestions - 1 ? 'Finalizar →' : 'Próxima →';
+        }
+
+        function saveCurrentAnswer() {
+            const selectedAnswer = document.querySelector('input[name="currentAnswer"]:checked');
+            if (selectedAnswer) {
+                answers[allQuestions[currentQuestionIndex].id] = parseInt(selectedAnswer.value);
+            }
+        }
+
+        function nextQuestion() {
+            saveCurrentAnswer();
+            if (currentQuestionIndex < totalQuestions - 1) {
+                currentQuestionIndex++;
+                animateTransition();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                saveCurrentAnswer();
+                currentQuestionIndex--;
+                animateTransition();
+            }
+        }
+
+        function animateTransition() {
+            const card = document.getElementById('questionCard');
+            card.classList.add('fade-out');
+            setTimeout(() => {
+                displayQuestion();
+                card.classList.remove('fade-out');
+                card.classList.add('fade-in');
+                setTimeout(() => card.classList.remove('fade-in'), 300);
+            }, 200);
+        }
+
+        function startDiagnostic() {
+            const name = document.getElementById('userName').value.trim();
+            if (!name) {
+                alert('Por favor, preencha seu nome.');
+                return;
+            }
+            userData = {
+                name,
+                idea: document.getElementById('userIdea').value.trim(),
+                experience: document.getElementById('userExperience').value.trim()
+            };
+            document.getElementById('initialForm').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('quizSection').style.display = 'block';
+            displayQuestion();
+        }
+
+        function calculateResults() {
+            const areaResults = {};
+            let totalScore = 0, totalAnswered = 0;
+
+            areas.forEach(area => {
+                let areaScore = 0, areaAnswered = 0;
+                area.questions.forEach((_, index) => {
+                    const questionId = `${area.name}_${index}`;
+                    if (answers[questionId] !== undefined) {
+                        areaScore += answers[questionId];
+                        areaAnswered++;
+                    }
+                });
+                const percentage = areaAnswered > 0 ? (areaScore / (areaAnswered * 10)) * 100 : 0;
+                areaResults[area.name] = {
+                    percentage,
+                    label: area.label,
+                    shortLabel: area.shortLabel,
+                    class: getScoreClass(percentage),
+                    status: getScoreStatus(percentage)
+                };
+                totalScore += areaScore;
+                totalAnswered += areaAnswered;
+            });
+
+            return {
+                individual: areaResults,
+                percentage: totalAnswered > 0 ? (totalScore / (totalAnswered * 10)) * 100 : 0
+            };
+        }
+
+        function getRecommendation(areaName, level) {
+            const recs = {
+                potencial_impacto: { critical: 'Seus programas precisam de adaptação significativa para o modelo institucional.', warning: 'Existe potencial não explorado. Avalie como seus conteúdos podem gerar mais impacto em escala.', success: 'Excelente! Use sua experiência como diferencial nas propostas institucionais.' },
+                potencial_negocio: { critical: 'Falta clareza sobre como monetizar via Sistema S.', warning: 'Você tem base para atuar, mas precisa estruturar melhor sua proposta de valor.', success: 'Seu conteúdo atende ao público do Sistema S. Aproveite a compatibilidade.' },
+                estrutura_oferta: { critical: 'Sua oferta precisa ser reformulada para requisitos institucionais.', warning: 'Crie um framework para propostas institucionais com base no seu produto atual.', success: 'Sua estrutura está pronta. Foque em documentar e padronizar suas entregas.' },
+                potencial_escala: { critical: 'Você está perdendo oportunidades de escala.', warning: 'Há espaço para crescer. Identifique programas estaduais compatíveis.', success: 'Potencial de escala identificado! Hora de expandir com confiança.' },
+                atracao_clientes: { critical: 'Aprenda a se conectar com gestores e coordenadores do Sebrae.', warning: 'Adapte sua comunicação para gerar credibilidade institucional.', success: 'Você já é visto como referência. Fortaleça sua presença institucional.' },
+                estrategia_venda: { critical: 'Estude urgentemente os processos de edital e chamamento.', warning: 'Aperfeiçoe conhecimentos sobre editais e chamamentos.', success: 'Você domina os processos. Monitore as oportunidades ativamente.' },
+                demanda_urgencia: { critical: 'Você está deixando dinheiro na mesa. Aja agora.', warning: 'Momento favorável: demanda alta e preparo adequado.', success: 'Timing perfeito! O mercado está pronto para sua solução.' }
+            };
+            return recs[areaName]?.[level] || '';
+        }
+
+        function showResults() {
+            const results = calculateResults();
+            const areaScores = areas.map(area => ({ ...area, ...results.individual[area.name] }));
+            const criticalAreas = areaScores.filter(a => a.percentage <= 40);
+            const warningAreas = areaScores.filter(a => a.percentage > 40 && a.percentage <= 60);
+            const strongAreas = areaScores.filter(a => a.percentage > 60);
+
+            document.getElementById('results').innerHTML = `
+                <div class="results-header">
+                    <h1>Edital de Mercado</h1>
+                    <p class="subtitle">Diagnóstico de Maturidade Digital</p>
+                    <p>Análise de Potencial para Transformar sua Estrutura Atual em Receita com o Sistema S</p>
+                </div>
+
+                <div class="score-summary">
+                    <div class="score-main">
+                        <div class="score-circle">
+                            <span class="percentage">${Math.round(results.percentage)}%</span>
+                        </div>
+                        <div class="score-info">
+                            <div class="label">SCORE GERAL</div>
+                            <div class="name">${userData.name}</div>
+                        </div>
+                    </div>
+                    <h3 class="score-cards-title">Resultados do Diagnóstico</h3>
+                    <div class="score-cards-grid">
+                        ${areaScores.slice(0, 4).map(a => `
+                            <div class="score-card ${a.class}">
+                                <div class="card-title">${a.shortLabel}</div>
+                                <div class="card-value">${Math.round(a.percentage)}%</div>
+                                <div class="card-status">${a.status}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="score-cards-row">
+                        ${areaScores.slice(4).map(a => `
+                            <div class="score-card ${a.class}">
+                                <div class="card-title">${a.shortLabel}</div>
+                                <div class="card-value">${Math.round(a.percentage)}%</div>
+                                <div class="card-status">${a.status}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">Visão 360° do Negócio</h3>
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+                <div class="analysis-section">
+                    <h3 class="analysis-title">Análise Detalhada e Recomendações</h3>
+                    ${criticalAreas.length > 0 ? `
+                        <div class="analysis-card critical">
+                            <h4>Prioridades Críticas</h4>
+                            ${criticalAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'critical')}</span></div>`).join('')}
+                        </div>
+                    ` : ''}
+                    ${warningAreas.length > 0 ? `
+                        <div class="analysis-card warning">
+                            <h4>Oportunidades de Melhoria</h4>
+                            ${warningAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'warning')}</span></div>`).join('')}
+                        </div>
+                    ` : ''}
+                    ${strongAreas.length > 0 ? `
+                        <div class="analysis-card success">
+                            <h4>Pontos Fortes para Alavancar</h4>
+                            ${strongAreas.map(a => `<div class="analysis-item"><strong>${a.shortLabel}:</strong> <span>${getRecommendation(a.name, 'success')}</span></div>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="next-steps-section">
+                    <h3 class="next-steps-title">🚀 Próximos Passos para Acelerar seu Negócio no Sistema S</h3>
+                    <div class="step-card"><h5>💰 O Custo de Não Agir</h5><p>Cada dia que passa sem atuar no Sistema S é uma oportunidade perdida. Enquanto você trabalha com clientes individuais, concorrentes já estão fechando contratos de R$ 50.000–500.000 com instituições.</p></div>
+                    <div class="step-card"><h5>🎯 Janela de Oportunidade</h5><p>O Sistema S está em digitalização acelerada. Quem se posicionar agora terá vantagem competitiva.</p></div>
+                    <div class="step-card"><h5>📈 Potencial de Transformação</h5><p>Com base no seu diagnóstico, você pode criar receita previsível com contratos anuais relevantes.</p></div>
+                    <div class="step-card"><h5>🏆 Casos de Sucesso</h5><p>Especialistas relatam contratos 10–20x maiores que no digital, com impacto em escala.</p></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-action btn-pdf" onclick="generatePDF()">📄 Gerar PDF</button>
+                    <button class="btn-action btn-new" onclick="newAssessment()">🔄 Nova Avaliação</button>
+                </div>
+            `;
+
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+
+            setTimeout(() => createRadarChart(areaScores), 100);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function createRadarChart(areaScores) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            if (radarChart) radarChart.destroy();
+
+            const labels = areaScores.map(a => {
+                const words = a.shortLabel.split(' ');
+                return words.length > 2 ? words.slice(0, 2).join(' ') : a.shortLabel;
+            });
+
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Situação Atual',
+                            data: areaScores.map(a => Math.round(a.percentage)),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#0a1628',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Situação Ideal',
+                            data: new Array(areaScores.length).fill(100),
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointBackgroundColor: '#10b981',
+                            pointRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 11, family: 'Outfit' },
+                                padding: 15,
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                color: '#64748b',
+                                backdropColor: 'transparent',
+                                font: { size: 9 },
+                                callback: (value) => value + '%'
+                            },
+                            grid: { color: 'rgba(59, 130, 246, 0.15)' },
+                            angleLines: { color: 'rgba(59, 130, 246, 0.15)' },
+                            pointLabels: {
+                                color: '#ffffff',
+                                font: { size: 10, family: 'Outfit' }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function generatePDF() {
+            const element = document.getElementById('results');
+            const buttons = document.querySelector('.action-buttons');
+            buttons.style.display = 'none';
+
+            html2pdf().set({
+                margin: 10,
+                filename: `Diagnostico_${userData.name.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0a1628' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(element).save().then(() => {
+                buttons.style.display = 'flex';
+            });
+        }
+
+        function newAssessment() {
+            if (confirm('Deseja iniciar uma nova avaliação?')) {
+                currentQuestionIndex = 0;
+                answers = {};
+                userData = { name: '', idea: '', experience: '' };
+                document.getElementById('userName').value = '';
+                document.getElementById('userIdea').value = '';
+                document.getElementById('userExperience').value = '';
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('progressSection').style.display = 'none';
+                document.getElementById('quizSection').style.display = 'none';
+                document.getElementById('initialForm').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'currentAnswer') updateNavigationButtons();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('quizSection').style.display === 'block') {
+                if (e.key >= '0' && e.key <= '9') {
+                    document.getElementById(`answer${e.key}`).checked = true;
+                    updateNavigationButtons();
+                } else if (e.key === 'Enter' && !document.getElementById('nextBtn').disabled) {
+                    nextQuestion();
+                } else if (e.key === 'ArrowRight' && !document.getElementById('nextBtn').disabled) {
+                    nextQuestion();
+                } else if (e.key === 'ArrowLeft' && currentQuestionIndex > 0) {
+                    previousQuestion();
+                }
+            }
+        });
+
+        document.getElementById('userName').addEventListener('input', function() {
+            document.getElementById('startBtn').disabled = !this.value.trim();
+        });
+    </script>
+</body>
+</html>
